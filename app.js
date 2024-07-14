@@ -1,9 +1,30 @@
+const http = require('http');
 const  express = require('express');
 const app = express();
 const path = require('path');
 const fs = require('fs');
+const server= http.createServer((req, res) => {
+    if(req.url === '/' || req.url === '/views/index.ejs'){
+        fs.readdir(`./hisaab`,(err, files) =>{
+            if(err) return  res.status(500).send(err);
+            res.render('index', {files: files});
+        })
+    }
+    // else if(req.url === '/create.html'){
+    //     res.render('create');
+    // }
+    // else if(req.url.startsWith('/edit/')){
+    //     const filename = req.url.split('/')[2];
+    //     fs.readFile(`./hisaab/${filename}`,"utf-8", (err, filedata) =>{
+    //         if(err) return  res.status(500).send(err);
+    //         res.render("edit", {filedata, filename});
+    //     })
+    // }
+    // else if(req.url.startsWith('/hisaab/')){
+    //     const filename = req.url.split}
+})
 app.set('view engine', 'ejs');
-// app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
